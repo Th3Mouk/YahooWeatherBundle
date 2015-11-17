@@ -1,9 +1,9 @@
 {
     "name": "th3mouk/yahoo-weather-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony Th3MoukContactBundle to factorize contact form generation throught websites.",
+    "description": "Symfony bundle that include Yahoo Weather API and archive datas in database.",
     "keywords": [
-        "contact", "contact mailer", "symfony", "bundle"
+        "weather", "forecasts", "yahoo", "symfony", "bundle"
     ],
     "license": "MIT",
     "authors": [
@@ -13,10 +13,11 @@
         }
     ],
     "require": {
-        "php": "^5.4",
+        "php": "^5.4|^7.0",
         "symfony/symfony": "^2.3",
+        "twig/twig": "^1.12",
         "th3mouk/yahoo-weather-api": "^1.0@dev",
-        "gedmo/doctrine-extensions": "^2.3"
+        "gedmo/doctrine-extensions": "^2.3.12"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "~2.7|~3.0",

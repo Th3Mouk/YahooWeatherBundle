@@ -11,7 +11,9 @@ namespace Th3Mouk\YahooWeatherBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -30,6 +32,20 @@ class Th3MoukYahooWeatherExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('th3mouk.weather.templates', $config['templates']);
+
+        if (isset($config['pictograms']['helper'])) {
+            $definition = new Definition($config['pictograms']['helper']);
+            $definition->setPublic(false);
+
+            $container->setDefinition('th3mouk_yahoo_weather.pictograms.helper', $definition);
+
+            $definition = new Definition($config['pictograms']['extension']);
+            $definition->setPublic(false);
+            $definition->addArgument(new Reference('th3mouk_yahoo_weather.pictograms.helper'));
+            $definition->addTag('twig.extension');
+
+            $container->setDefinition('th3mouk_yahoo_weather.pictograms.extension', $definition);
+        }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

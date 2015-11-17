@@ -14,6 +14,9 @@ use Th3Mouk\YahooWeatherBundle\Helper\WeatherHelper;
 
 class WeatherExtension extends \Twig_Extension
 {
+    /**
+     * @var WeatherHelper
+     */
     protected $helper;
 
     /**

@@ -177,6 +177,10 @@ You're done! :+1:
 You have access to two events before and after mail was send :
 * [MailerEventsDefinition](https://github.com/Th3Mouk/ContactBundle/tree/master/Events/MailerEventsDefinition)
 
+## TODO
+
+- Add template option on weather twig extension
+
 ## Please
 
 Feel free to improve this bundle.

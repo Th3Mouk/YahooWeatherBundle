@@ -36,6 +36,13 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('forecast')->defaultValue('Th3MoukYahooWeatherBundle:Default:forecast.html.twig')->end()
                     ->end()
                 ->end()
+                ->arrayNode('pictograms')
+                ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('helper')->end()
+                        ->scalarNode('extension')->defaultValue('Th3Mouk\YahooWeatherBundle\Twig\PictoExtension')->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 
