@@ -1,0 +1,6 @@
+services:
+    th3mouk_yahoo_weather.admin.city:
+        class: Th3Mouk\YahooWeatherBundle\Admin\CityAdmin
+        arguments: [~, Th3Mouk\YahooWeatherBundle\Entity\City, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: weather, label: city}

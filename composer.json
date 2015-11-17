@@ -1,0 +1,36 @@
+{
+    "name": "th3mouk/yahoo-weather-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony Th3MoukContactBundle to factorize contact form generation throught websites.",
+    "keywords": [
+        "contact", "contact mailer", "symfony", "bundle"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jérémy Marodon",
+            "email": "marodon.jeremy@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.4",
+        "symfony/symfony": "^2.3",
+        "th3mouk/yahoo-weather-api": "^1.0@dev",
+        "gedmo/doctrine-extensions": "^2.3"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "~2.7|~3.0",
+        "fabpot/php-cs-fixer": "^0.5|^1.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Th3Mouk\\YahooWeatherBundle\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

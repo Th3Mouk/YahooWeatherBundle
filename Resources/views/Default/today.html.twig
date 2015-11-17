@@ -1,0 +1,11 @@
+<div class="weather today">
+    <span class="city">{{ today.city.name }}</span>
+    <br>
+    <span class="date">{{ today.date|localizeddate('full', 'none') }}</span>
+    <br>
+    <span class="low">{{ today.low }}</span>
+    <span class="separator">/</span>
+    <span class="high">{{ today.high }}</span>
+    &deg;
+    <span class="unit">{{ today.unit|upper }}</span>
+</div>

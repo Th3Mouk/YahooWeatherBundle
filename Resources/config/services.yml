@@ -1,0 +1,21 @@
+services:
+    th3mouk_yahoo_weather.api.manager:
+        class: Th3Mouk\YahooWeatherBundle\Manager\APIManager
+
+    th3mouk_yahoo_weather.history.manager:
+        class: Th3Mouk\YahooWeatherBundle\Manager\HistoryManager
+        arguments: [@th3mouk_yahoo_weather.api.manager, @doctrine.orm.entity_manager]
+
+    th3mouk_yahoo_weather.twig.helper.weather:
+        class: Th3Mouk\YahooWeatherBundle\Helper\WeatherHelper
+        arguments: [@th3mouk_yahoo_weather.history.manager]
+        public: false
+        calls:
+            - [setTemplates, [%th3mouk.weather.templates%]]
+
+    th3mouk_yahoo_weather.twig.extension.weather:
+        class: Th3Mouk\YahooWeatherBundle\Twig\WeatherExtension
+        arguments: [@th3mouk_yahoo_weather.twig.helper.weather]
+        public: false
+        tags:
+            - { name: twig.extension }

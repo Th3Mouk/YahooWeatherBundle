@@ -1,0 +1,13 @@
+<div class="weather forecast">
+    <span class="city">{{ forecasts[0].city.name }}</span>
+{% for forecast in forecasts %}
+    <br>
+    <span class="date">{{ forecast.date|localizeddate('full', 'none') }}</span>
+    <br>
+    <span class="low">{{ forecast.low }}</span>
+    <span class="separator">/</span>
+    <span class="high">{{ forecast.high }}</span>
+    &deg;
+    <span class="unit">{{ forecast.unit|upper }}</span>
+{% endfor %}
+</div>
