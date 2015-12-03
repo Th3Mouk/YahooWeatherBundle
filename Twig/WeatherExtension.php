@@ -43,8 +43,12 @@ class WeatherExtension extends \Twig_Extension
         );
     }
 
-    public function getForecast(\Twig_Environment $twig, City $city, $unit = 'c')
+    public function getForecast(\Twig_Environment $twig, City $city = null, $unit = 'c')
     {
+        if (null === $city) {
+            return '';
+        }
+
         $forecasts = $this->helper->getForecast($city, $unit);
 
         return $twig->render($this->helper->getForecastTemplate(), array(
@@ -52,8 +56,12 @@ class WeatherExtension extends \Twig_Extension
         ));
     }
 
-    public function getToday(\Twig_Environment $twig, City $city, $unit = 'c')
+    public function getToday(\Twig_Environment $twig, City $city = null, $unit = 'c')
     {
+        if (null === $city) {
+            return '';
+        }
+
         $today = $this->helper->getToday($city, $unit);
 
         return $twig->render($this->helper->getTodayTemplate(), array(

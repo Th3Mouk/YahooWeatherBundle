@@ -118,7 +118,7 @@ class HistoryManager
         $forecasts = array();
 
         foreach ($datas as $data) {
-            $forecast = $this->createUpdateForecastEntity($city, clone($currentDate), $data, $unit);
+            $forecast = $this->createUpdateForecastEntity($city, clone $currentDate, $data, $unit);
             $forecasts[] = $forecast;
             $currentDate = $currentDate->add($dateInterval);
         }
