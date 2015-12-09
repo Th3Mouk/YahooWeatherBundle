@@ -1,164 +1,104 @@
 Yahoo Weather Bundle
 ====================
 
-This [Symfony](http://symfony.com/) bundle providing base for manage contact form.
+This [Symfony](http://symfony.com/) bundle providing communication and historian of [Yahoo Weather API](https://developer.yahoo.com/weather/).
 
-The aim is to factorise website contact form.
-
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/8b9d7aff-9d73-4a54-8c57-edc2257a24ab/mini.png)](https://insight.sensiolabs.com/projects/8b9d7aff-9d73-4a54-8c57-edc2257a24ab) [![Latest Stable Version](https://poser.pugx.org/th3mouk/contact-bundle/v/stable)](https://packagist.org/packages/th3mouk/contact-bundle) [![Total Downloads](https://poser.pugx.org/th3mouk/contact-bundle/downloads)](https://packagist.org/packages/th3mouk/contact-bundle) [![Build Status](https://travis-ci.org/Th3Mouk/ContactBundle.svg?branch=master)](https://travis-ci.org/Th3Mouk/ContactBundle) [![Latest Unstable Version](https://poser.pugx.org/th3mouk/contact-bundle/v/unstable)](https://packagist.org/packages/th3mouk/contact-bundle) [![License](https://poser.pugx.org/th3mouk/contact-bundle/license)](https://packagist.org/packages/th3mouk/contact-bundle)
-
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/83b59961-89a2-47a0-8496-67eea3294b6f/mini.png)](https://insight.sensiolabs.com/projects/83b59961-89a2-47a0-8496-67eea3294b6f) [![Latest Stable Version](https://poser.pugx.org/th3mouk/yahoo-weather-bundle/v/stable)](https://packagist.org/packages/th3mouk/yahoo-weather-bundle) [![Total Downloads](https://poser.pugx.org/th3mouk/yahoo-weather-bundle/downloads)](https://packagist.org/packages/th3mouk/yahoo-weather-bundle) [![Latest Unstable Version](https://poser.pugx.org/th3mouk/yahoo-weather-bundle/v/unstable)](https://packagist.org/packages/th3mouk/yahoo-weather-bundle) [![License](https://poser.pugx.org/th3mouk/yahoo-weather-bundle/license)](https://packagist.org/packages/th3mouk/yahoo-weather-bundle)
 
 ## Installation
 
-`php composer.phar require th3mouk/contact-bundle ^1.1`
+`composer require th3mouk/yahoo-weather-bundle ^1.0@dev`
 
 Add to the `appKernel.php`:
 
 ```php
-new Th3Mouk\ContactBundle\Th3MoukContactBundle(),
+// Weather Bundle
+new Th3Mouk\YahooWeatherBundle\Th3MoukYahooWeatherBundle(),
 ```
 
-Update your `routing.yml` application's file.
+Full configuration of `config.yml`
 
 ```yml
-th3mouk_contact:
-    resource: "@Th3MoukContactBundle/Resources/config/routing.yml"
-    prefix:   /contact
-```
-
-Configure entities and templates in `config.yml`
-
-```yml
-th3mouk_contact:
-    datas:
-        from: noreply@domain.com
-        to:
-            - test.mail@domain.com
-        subject: Contact request from your website
-            
-    class:
-        entity: AppBundle\Entity\Contact
-        formType: AppBundle\Form\ContactType
-
+th3mouk_yahoo_weather:
     templates:
-        application: AppBundle:Contact:contact.html.twig
-        mailer: AppBundle:Contact:mail.html.twig
+        today:     Th3MoukYahooWeatherBundle:Default:today.html.twig
+        forecast:  Th3MoukYahooWeatherBundle:Default:forecast.html.twig
+            
+    pictograms:
+        helper: ImplementsYourOwn
+        extension: Th3Mouk\YahooWeatherBundle\Twig\PictoExtension
 ```
 
 ## Usage
 
-Create `Contact` entity that implement the `Th3Mouk\ContactBundle\Entity\ContactInterface` with the `app/console d:g:entity`.
+This bundle provides two entities: `Th3Mouk\YahooWeatherBundle\Entity\City` and `Th3Mouk\YahooWeatherBundle\Entity\Forecast`.
 
-Generate the relative FormType: `app/console d:g:f AppBundle:Contact`.
+The first one is relative to communication with the API, city object must have the name of the city like in the Yahoo Weather Documentation, or a WOEID code.
+The second is for data persistence and history retrieve.
 
-Create two template for frontend and mail, you have access to `form` object to draw your form, and your `contact` object in the mail template.
+Extends them or feel free to hack it !
 
-Check the following exemples:
+### Twig Extensions
 
-### Exemple of ContactType
+You have two extensions to draw the forecasts, they use templates defined in configuration.
+Feel free to to implements or add your own !
+
+```twig
+{{ weather_forecast(city, unit = 'c') }}
+{{ weather_today(city, unit = 'c') }}
+```
+
+You can add a pictogram helper in the configuration that activate this extension, that must implement `Th3Mouk\YahooWeatherBundle\Helper\PictogramInterface`.
+```twig
+{{ code|weather_pictogram }}
+```
+
+This is an exemple of PictogramHelper :
 
 ```php
-namespace AppBundle\Form;
+namespace AppBundle\Helper;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Th3Mouk\YahooWeatherBundle\Helper\PictogramInterface;
 
-class ContactType extends AbstractType
+class WeatherPictogramHelper implements PictogramInterface
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
+     * Function that retrieve the html string corresponding to a weather code.
+     *
+     * @param $code
+     *
+     * @return string|null
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function getPictogram($code)
     {
-        $builder
-            ->add('name')
-            ->add('adress')
-            ->add('zipCode')
-            ->add('city')
-            ->add('phone')
-            ->add('email', 'email')
-            ->add('message')
-        ;
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Contact',
-        ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'app_contact_type';
+        return "<img src='favicon.ico'/>";
     }
 }
 ```
 
-### Exemple of Form Template
-
-```twig
-<h1>Contact Request</h1>
-
-{{ form_start(form) }}
-
-{{ form_row(form.name) }}
-{{ form_row(form.adress) }}
-{{ form_row(form.zipCode) }}
-{{ form_row(form.city) }}
-{{ form_row(form.phone) }}
-{{ form_row(form.email) }}
-{{ form_row(form.message) }}
-
-<div class="form-group"><button type="submit" class="btn-default btn">Submit</button></div>
-
-{{ form_rest(form) }}
-{{ form_end(form) }}
-```
-
-### Exemple of Mail Template
-
-```twig
-{{ contact.name }}<br>
-{{ contact.adress }}<br>
-{{ contact.zipCode }}<br>
-{{ contact.city }}<br>
-{{ contact.phone }}<br>
-{{ contact.email }}<br>
-{{ contact.message }}
-```
-
 ### Sonata Integration Exemple
 
-First use the `app/console sonata:admin:generate` command.
+This bundle automatically provide an administration for cities.
 
-Then add the service configuration:
+The service is named `th3mouk_yahoo_weather.admin.city`.
 
 ```yml
-app.admin.contact:
-    class: AppBundle\Admin\ContactAdmin
-    arguments: [~, AppBundle\Entity\Contact, SonataAdminBundle:CRUD]
+th3mouk_yahoo_weather.admin.city:
+    class: Th3Mouk\YahooWeatherBundle\Admin\CityAdmin
+    arguments: [~, Th3Mouk\YahooWeatherBundle\Entity\City, SonataAdminBundle:CRUD]
     tags:
-        - {name: sonata.admin, manager_type: orm, label: Contacts}
+        - {name: sonata.admin, manager_type: orm, group: weather, label: city}
 ```
 
 Add the admin group on the dashboard:
 
 ```yml
-sonata.admin.group.contact:
-    label:           Contact
-    label_catalogue: SonataPageBundle
-    icon:            '<i class="fa fa-envelope"></i>'
+sonata.admin.group.weather:
+    label:           weather
+    label_catalogue: messages
+    icon:            '<i class="fa fa-sun-o"></i>'
     items:
-        - app.admin.contact
+        - th3mouk_yahoo_weather.admin.city
     roles: [ ROLE_ADMIN ]
 ```
 
@@ -167,19 +107,17 @@ Don't forget to add this group on a block:
 sonata_admin:
     dashboard:
         blocks:
-            - { position: left, type: sonata.admin.block.admin_list, settings: { groups: [...sonata.admin.group.contact...] }}
+            - { position: left, type: sonata.admin.block.admin_list, settings: { groups: [...sonata.admin.group.weather...] }}
 ```
 
 You're done! :+1:
 
-## Events
-
-You have access to two events before and after mail was send :
-* [MailerEventsDefinition](https://github.com/Th3Mouk/ContactBundle/tree/master/Events/MailerEventsDefinition)
-
 ## TODO
 
 - Add template option on weather twig extension
+- Add today forecast without city object
+- Remove sonata configuration in the bundle
+- Add weather extension configuration
 
 ## Please
 
