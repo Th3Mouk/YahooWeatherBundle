@@ -10,6 +10,7 @@
 namespace Th3Mouk\YahooWeatherBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
+use Th3Mouk\YahooWeatherBundle\Entity\CityInterface;
 use Th3Mouk\YahooWeatherBundle\Entity\Forecast;
 
 class HistoryManager
@@ -88,12 +89,12 @@ class HistoryManager
     }
 
     /**
-     * @param $city
-     * @param string $unit
+     * @param CityInterface $city
+     * @param string        $unit
      *
      * @return array
      */
-    protected function downloadForecast($city, $unit = 'c')
+    protected function downloadForecast(CityInterface $city, $unit = 'c')
     {
         if ($city->getWoeid()) {
             $this->api->callApiWoeid($city->getWoeid(), $unit);

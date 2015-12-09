@@ -19,7 +19,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\Table("weather__city")
  * @ORM\Entity(repositoryClass="Th3Mouk\YahooWeatherBundle\Entity\CityRepository")
  */
-class City
+class City implements CityInterface
 {
     use TimestampableEntity;
 
