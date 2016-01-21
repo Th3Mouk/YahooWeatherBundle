@@ -161,6 +161,32 @@ class HistoryManager
     }
 
     /**
+     * Update the forecasts of all the cities.
+     *
+     * @param string $unit
+     *
+     * @return array
+     */
+    public function updateAllCitiesForecast($unit = 'c')
+    {
+        $cities = $this->getCityRepository()->findAll();
+
+        foreach ($cities as $city) {
+            $datas = $this->downloadForecast($city, $unit);
+
+            return $this->updateForecast($city, $datas, $unit);
+        }
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    protected function getCityRepository()
+    {
+        return $this->em->getRepository('Th3MoukYahooWeatherBundle:City');
+    }
+
+    /**
      * @return \Doctrine\ORM\EntityRepository
      */
     protected function getForecastRepository()
