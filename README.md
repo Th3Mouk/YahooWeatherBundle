@@ -40,6 +40,8 @@ Extends them or feel free to hack it !
 
 ### Twig Extensions
 
+#### Weather
+
 You have two extensions to draw the forecasts, they use templates defined in configuration.
 Feel free to to implements or add your own !
 
@@ -47,6 +49,8 @@ Feel free to to implements or add your own !
 {{ weather_forecast(city, unit = 'c') }}
 {{ weather_today(city, unit = 'c') }}
 ```
+
+#### Icons
 
 You can add a pictogram helper in the configuration that activate this extension, that must implement `Th3Mouk\YahooWeatherBundle\Helper\PictogramInterface`.
 ```twig
@@ -118,6 +122,9 @@ You're done! :+1:
 - Add today forecast without city object
 - Remove sonata configuration in the bundle
 - Add weather extension configuration
+- Add twig extension of history
+- Add twig extension for comparison of weather (today and Y-1)
+- Add twig extension for comparison of weather (forecast and Y-1)
 
 ## Please
 
