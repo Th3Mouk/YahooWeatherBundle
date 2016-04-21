@@ -62,7 +62,7 @@ class HistoryManagerTest extends \PHPUnit_Framework_TestCase
         $currentDate = new \DateTime();
         $dateInterval = new \DateInterval('P1D');
 
-        $this->assertSame(count($forecasts), 5);
+        $this->assertSame(count($forecasts), 10);
         foreach ($forecasts as $forecast) {
             $this->assertSame($forecast->getDate()->format('Y-m-d'), $currentDate->format('Y-m-d'));
             $this->assertNotNull($forecast->getCode());
@@ -84,7 +84,7 @@ class HistoryManagerTest extends \PHPUnit_Framework_TestCase
         $currentDate = new \DateTime();
         $dateInterval = new \DateInterval('P1D');
 
-        $this->assertSame(count($forecasts), 5);
+        $this->assertSame(count($forecasts), 10);
         foreach ($forecasts as $forecast) {
             $this->assertSame($forecast->getDate()->format('Y-m-d'), $currentDate->format('Y-m-d'));
             $this->assertNotNull($forecast->getCode());

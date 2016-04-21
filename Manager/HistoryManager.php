@@ -46,7 +46,7 @@ class HistoryManager
     public function getForecast($city, $unit = 'c')
     {
         $dateForecast = new \DateTime();
-        $dateForecast = $dateForecast->add(new \DateInterval('P4D'));
+        $dateForecast = $dateForecast->add(new \DateInterval('P9D'));
 
         $lastDayForecast = $this->getForecastRepository()->findOneBy(array(
             'city' => $city,
